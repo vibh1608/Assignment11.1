@@ -1,0 +1,125 @@
+                                                                        Assignment 11.1
+
+
+          a.   What is the use of SQLite open helper class in SQLite?
+
+
+	Ans.   In SQLite a helper class allows database management, creation and version management. 
+
+	       SQLite open helper class  is the class where we can create all the tables as well as  upgrade tables.           
+
+	       This class makes it easy for ContentProvider implementations to defer opening and upgrading the database until first use, to avoid blocking application startup with long-running database upgrades. 
+
+	          Example : 
+
+	          public class DatabaseHelper extends SQLiteOpenHelper 
+
+	          {     
+
+	                public static final String DB_NAME = "PersonsDB";     
+
+	                public static final String TABLE_NAME = "Persons";     
+
+	                public static final String COLUMN_ID = "id";     
+
+	                public static final String COLUMN_NAME ="name";     
+
+	                public static final String COLUMN_ADD = "address";       
+
+	                private static final int DB_VERSION = 1;       
+
+	                public DatabaseHelper(Context context) 
+
+	               {         
+
+	                       super(context,DB_NAME,null,DB_VERSION);     
+
+	                } 
+
+	          }
+
+	
+
+	
+
+	b. What is the use of OnUpgrade function in SQLiteOpenHelper Class? 
+
+	Ans.   OnUpgrade function in SQLiteOpenHelper Class  is used for handling new db changes which could be addition of new columns  and table addition for any new version of our Android app.  
+
+	           Example : 
+
+	           public class SQLiteHelper extends SQLiteOpenHelper 
+
+	           { 
+
+	                 public SQLiteHelper(Context context) 
+
+	                 {         
+
+	                        super(context, DATABASE_NAME, null, DATABASE_VERSION);     
+
+	                 } 
+
+	 
+
+	                //database values 
+
+	                private static final String DATABASE_NAME = "demoApp.db";     
+
+	                private static final int DATABASE_VERSION      = 1;     
+
+	                public static final String COLUMN_ID           = "_id"; 
+
+	 
+
+	               //team table     
+
+	               public static final String TABLE_TEAM = "team";      
+
+	               public static final String COLUMN_MASCOT = "mascot";     
+
+	               public static final String COLUMN_CITY = "city"; 
+
+	 
+
+	               public static final String DATABASE_CREATE_TEAM = "create table " + TABLE_TEAM + "(" +                                                                                                     COLUMN_ID + " integer primary key autoincrement, "                                                                                       + COLUMN_NAME + " string, "        
+
+	                                                                  + COLUMN_MASCOT + " string, "                                                                                                           + COLUMN_CITY + " string)"; 
+
+	 
+
+	               @Override     
+
+	               public void onCreate(SQLiteDatabase db) 
+
+	               {         
+
+	                     db.execSQL(DATABASE_CREATE_TEAM);     
+
+	               } 
+
+	 
+
+	               @Override     
+
+	               public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) 
+
+	               {         
+
+	                     db.execSQL("DROP TABLE IF EXISTS " + TABLE_TEAM);         
+
+	                     onCreate(db);     
+
+	                } 
+
+	         }
+
+	
+
+	
+
+	c. How to show SQLite database table information in Android Application what is the best way to do it ?   
+
+	
+	Ans.  The solution is we have to use table layout with cursor.  Showing database information will be better suited with table layout.  Since table layout is not an adapter view, we can't use cursor adapter with it. So we can use table layout with cursor to show database table information. 
+
